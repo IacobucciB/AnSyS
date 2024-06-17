@@ -2,6 +2,8 @@ clear all;
 close all;
 clc;
 
+addpath('./funciones')
+
 dt = 1e-2;
 t = -5:dt:5;
 x = cajon(t)
