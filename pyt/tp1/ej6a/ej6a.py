@@ -9,4 +9,5 @@ t = np.arange(-2,4,0.001)
 h = tri1(t)
 
 plt.plot(t,h)
+plt.savefig('tp1-ej6a.png', bbox_inches='tight')
 plt.show()
