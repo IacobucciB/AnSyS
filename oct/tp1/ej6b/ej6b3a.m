@@ -1,5 +1,3 @@
-% tp1 - ej6b - 3a
-
 n = -1:7
 x_n = zeros(size(n))
 signal = (n >= 0 & n <= 4)
