@@ -1,0 +1,1 @@
+% Delta de Kroneckerfunction ret = delta(n)  ret = zeros(size(n));  ret(n == 0) = 1;endfunction

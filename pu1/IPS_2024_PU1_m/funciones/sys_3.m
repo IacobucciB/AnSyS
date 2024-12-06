@@ -1,0 +1,1 @@
+% Sistema Tresfunction y = sys_3(x)  y(1) = 0.5 * x(1);  for n = 2:length(x)    y(n) = 0.25 * x(n) + 0.25 * x(n-1) + 0.5 * y(n-1);  endforendfunction

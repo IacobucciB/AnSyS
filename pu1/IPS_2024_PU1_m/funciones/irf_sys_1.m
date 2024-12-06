@@ -1,0 +1,1 @@
+% Respuesta Impulsional Sistema Unofunction ret = irf_sys_1(n)  ret = 0.5 * (delta(n) + delta(n - 1));endfunction

@@ -1,0 +1,1 @@
+% Respuesta en Frecuencia Sistema Unofunction ret = frf_sys_1(n)  ret = 0.5 .* (1 + exp(-1i * 2 * pi * n));endfunction
