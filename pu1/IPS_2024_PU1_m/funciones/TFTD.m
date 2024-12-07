@@ -1,0 +1,1 @@
+% TFTDfunction ret = TFTD(x)  n = 0:100;  ds = 0.001;  s = -0.5:ds:0.5;  ret = zeros(size(s));  for k = 1:length(s)    ret(k) = sum(x .* exp(-1i * 2 * pi * s(k) * n));  endforendfunction
