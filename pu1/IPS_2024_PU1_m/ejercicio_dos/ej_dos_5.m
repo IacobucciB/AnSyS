@@ -13,71 +13,70 @@ n2 = 17640;  % Tercer retardo
 % Canal con los tres impulsos definidos
 hc = [1 zeros(1, n1-1) alpha1 zeros(1, n2-n1-1) alpha2];
 
-% Filtro con 2 ramas de retardo (para cancelar el retardo en n=0 y n=8820)
-hf_2 = [1 zeros(1, n1-1) -alpha1];
+% Filtro con 1 rama de retardo (para cancelar el retardo en n=0)
+hf_1 = [1 zeros(1, n1-1) -alpha1];
 
-% Filtro con 3 ramas de retardo (para cancelar el retardo en n=0, n=8820 y n=17640)
+% Filtro con 2 ramas de retardo (para cancelar el retardo en n=0 y n=8820)
+hf_2 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
+
+% Filtro con 3 ramas de retardo
 hf_3 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
 
-% Filtro con 4 ramas de retardo (puede incluir un coeficiente adicional si es necesario)
-% Este filtro podría añadir una nueva corrección si fuera necesario, pero no se hace en este caso
-hf_4 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
-
-% Convolución para obtener la respuesta impulsional de la cascada
+% Convolucion para obtener la respuesta impulsional de la cascada
+h_cascada_1 = conv(hc, hf_1); % Canal + filtro de 1 rama
 h_cascada_2 = conv(hc, hf_2); % Canal + filtro de 2 ramas
 h_cascada_3 = conv(hc, hf_3); % Canal + filtro de 3 ramas
-h_cascada_4 = conv(hc, hf_4); % Canal + filtro de 4 ramas (aunque no cambia en este caso)
 
 
-% Cargar la señal de audio
+% Cargar la senial de audio
 [x, fs] = audioread('audio.wav');
 
-% Filtrar la señal
-y_2 = filter(hf_2, 1, x); % Señal filtrada con 2 ramas
-y_3 = filter(hf_3, 1, x); % Señal filtrada con 3 ramas
-y_4 = filter(hf_4, 1, x); % Señal filtrada con 4 ramas
+% Filtrar la senial
+y_1 = filter(hf_1, 1, x); % Senial filtrada con 1 rama
+y_2 = filter(hf_2, 1, x); % Senial filtrada con 2 ramas
+y_3 = filter(hf_3, 1, x); % Senial filtrada con 3 ramas
 
-% Comparar con la señal original
-figure;
+% Comparar con la senial original
+figure('Position', [100, 100, 1200, 800]); % Tamaño de la ventana gráfica
 t = (0:length(x)-1) / fs; % Vector de tiempo
 subplot(4,1,1);
 plot(t, x);
-title('Señal original');
+title('Senial original', 'FontSize', 10);
 xlabel('Tiempo (s)');
 ylabel('Amplitud');
 
 subplot(4,1,2);
-plot(t, y_2);
-title('Señal filtrada (2 ramas)');
+plot(t, y_1);
+title('Senial filtrada (1 rama)', 'FontSize', 10);
 xlabel('Tiempo (s)');
 ylabel('Amplitud');
 
 subplot(4,1,3);
-plot(t, y_3);
-title('Señal filtrada (3 ramas)');
+plot(t, y_2);
+title('Senial filtrada (2 ramas)', 'FontSize', 10);
 xlabel('Tiempo (s)');
 ylabel('Amplitud');
 
 subplot(4,1,4);
-plot(t, y_4);
-title('Señal filtrada (4 ramas)');
+plot(t, y_3);
+title('Senial filtrada (3 ramas)', 'FontSize', 10);
 xlabel('Tiempo (s)');
 ylabel('Amplitud');
 
-% Escuchar las señales
-disp('Reproduciendo la señal original...');
+% Escuchar las seniales
+disp('Reproduciendo la senial original...');
 sound(x, fs);
 pause(length(x)/fs + 1);
 
-disp('Reproduciendo la señal filtrada (2 ramas)...');
+disp('Reproduciendo la senial filtrada (1 rama)...');
+sound(y_1, fs);
+pause(length(y_1)/fs + 1);
+
+disp('Reproduciendo la senial filtrada (2 ramas)...');
 sound(y_2, fs);
 pause(length(y_2)/fs + 1);
 
-disp('Reproduciendo la señal filtrada (3 ramas)...');
+disp('Reproduciendo la senial filtrada (3 ramas)...');
 sound(y_3, fs);
 pause(length(y_3)/fs + 1);
-
-disp('Reproduciendo la señal filtrada (4 ramas)...');
-sound(y_4, fs);
-pause(length(y_4)/fs + 1);
 

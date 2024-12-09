@@ -1,0 +1,1 @@
+function esperar_cero()    while true        numero = input('Ingrese el número 0 para continuar: ');        if numero == 0            break;        else            fprintf('El número ingresado no es 0. Intente nuevamente.\n');        end    endend
