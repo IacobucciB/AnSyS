@@ -19,14 +19,13 @@ hf_1 = [1 zeros(1, n1-1) -alpha1];
 % Filtro con 2 ramas de retardo (para cancelar el retardo en n=0 y n=8820)
 hf_2 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
 
-% Filtro con 3 ramas de retardo (puede incluir un coeficiente adicional si es necesario)
-% Este filtro podria aniadir una nueva correccion si fuera necesario, pero no se hace en este caso
+% Filtro con 3 ramas de retardo
 hf_3 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
 
 % Convolucion para obtener la respuesta impulsional de la cascada
 h_cascada_1 = conv(hc, hf_1); % Canal + filtro de 1 rama
 h_cascada_2 = conv(hc, hf_2); % Canal + filtro de 2 ramas
-h_cascada_3 = conv(hc, hf_3); % Canal + filtro de 3 ramas (aunque no cambia en este caso)
+h_cascada_3 = conv(hc, hf_3); % Canal + filtro de 3 ramas
 
 % Graficar las respuestas impulsionales
 figure;
