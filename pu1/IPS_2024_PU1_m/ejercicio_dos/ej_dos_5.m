@@ -10,73 +10,68 @@ n1 = 8820;  % Segundo retardo
 alpha2 = 0.25;  % Coeficiente en n=17640
 n2 = 17640;  % Tercer retardo
 
-% Canal con los tres impulsos definidos
-hc = [1 zeros(1, n1-1) alpha1 zeros(1, n2-n1-1) alpha2];
-
-% Filtro con 1 rama de retardo (para cancelar el retardo en n=0)
-hf_1 = [1 zeros(1, n1-1) -alpha1];
-
-% Filtro con 2 ramas de retardo (para cancelar el retardo en n=0 y n=8820)
-hf_2 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
-
-% Filtro con 3 ramas de retardo
-hf_3 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
-
-% Convolucion para obtener la respuesta impulsional de la cascada
-h_cascada_1 = conv(hc, hf_1); % Canal + filtro de 1 rama
-h_cascada_2 = conv(hc, hf_2); % Canal + filtro de 2 ramas
-h_cascada_3 = conv(hc, hf_3); % Canal + filtro de 3 ramas
-
-
-% Cargar la senial de audio
+% Cargar la señal de audio
 [x, fs] = audioread('audio.wav');
 
-% Filtrar la senial
-y_1 = filter(hf_1, 1, x); % Senial filtrada con 1 rama
-y_2 = filter(hf_2, 1, x); % Senial filtrada con 2 ramas
-y_3 = filter(hf_3, 1, x); % Senial filtrada con 3 ramas
+% Obtener la salida del sistema con la señal de audio original
+% sistema = @(x) x; % Passthrough del sistema, si es necesario ajustar, definirlo correctamente
+y_left = sys_canal(x(:, 1)); % Canal izquierdo
+y_right = sys_canal(x(:, 2)); % Canal derecho
 
-% Comparar con la senial original
-figure('Position', [100, 100, 1200, 800]); % TamaÃ±o de la ventana grÃ¡fica
-t = (0:length(x)-1) / fs; % Vector de tiempo
-subplot(4,1,1);
-plot(t, x);
-title('Senial original', 'FontSize', 10);
-xlabel('Tiempo (s)');
-ylabel('Amplitud');
+% Aplicar filtro con 2 ramas de retardo a ambos canales
+y_left_2b = filter_2b(y_left);
+y_right_2b = filter_2b(y_right);
 
-subplot(4,1,2);
-plot(t, y_1);
-title('Senial filtrada (1 rama)', 'FontSize', 10);
-xlabel('Tiempo (s)');
-ylabel('Amplitud');
+% Combinar ambos canales filtrados en una señal estéreo
+y2_stereo = [y_left_2b, y_right_2b];
 
-subplot(4,1,3);
-plot(t, y_2);
-title('Senial filtrada (2 ramas)', 'FontSize', 10);
-xlabel('Tiempo (s)');
-ylabel('Amplitud');
+% Graficar señal original (Canal Izquierdo)
+figure('Position', [100, 100, 1200, 600]);
+subplot(2, 1, 1);
+timeOriginal = (0:length(x) - 1) / fs;
+plot(timeOriginal, x(:, 1), 'b');
+title('Señal Original (Canal Izquierdo)', 'FontSize', 12);
+xlabel('Tiempo (s)', 'FontSize', 10);
+ylabel('Amplitud', 'FontSize', 10);
+grid on;
 
-subplot(4,1,4);
-plot(t, y_3);
-title('Senial filtrada (3 ramas)', 'FontSize', 10);
-xlabel('Tiempo (s)');
-ylabel('Amplitud');
+% Graficar señal filtrada con 2 ramas (Canal Derecho)
+subplot(2, 1, 2);
+timeFiltered2 = (0:length(y2_stereo) - 1) / fs;
+plot(timeFiltered2, y2_stereo(:, 1), 'r');
+title('Salida filtrada con 2 ramas (Canal Derecho)', 'FontSize', 12);
+xlabel('Tiempo (s)', 'FontSize', 10);
+ylabel('Amplitud', 'FontSize', 10);
+grid on;
 
-% Escuchar las seniales
-disp('Reproduciendo la senial original...');
-sound(x, fs);
-pause(length(x)/fs + 1);
+sound(y2_stereo, fs);
+pause(length(y_left_2b)/fs + 1);
 
-disp('Reproduciendo la senial filtrada (1 rama)...');
-sound(y_1, fs);
-pause(length(y_1)/fs + 1);
+% Aplicar filtro con 3 ramas de retardo a ambos canales
+y_left_3b = filter_3b(y_left);
+y_right_3b = filter_3b(y_right);
 
-disp('Reproduciendo la senial filtrada (2 ramas)...');
-sound(y_2, fs);
-pause(length(y_2)/fs + 1);
+% Combinar ambos canales filtrados en una señal estéreo
+y3_stereo = [y_left_3b, y_right_3b];
 
-disp('Reproduciendo la senial filtrada (3 ramas)...');
-sound(y_3, fs);
-pause(length(y_3)/fs + 1);
+% Graficar señal original (Canal Izquierdo) nuevamente
+figure('Position', [100, 100, 1200, 600]);
+subplot(2, 1, 1);
+plot(timeOriginal, x(:, 1), 'b');
+title('Señal Original (Canal Izquierdo)', 'FontSize', 12);
+xlabel('Tiempo (s)', 'FontSize', 10);
+ylabel('Amplitud', 'FontSize', 10);
+grid on;
+
+% Graficar señal filtrada con 3 ramas (Canal Derecho)
+subplot(2, 1, 2);
+timeFiltered3 = (0:length(y3_stereo) - 1) / fs;
+plot(timeFiltered3, y3_stereo(:, 1), 'r');
+title('Salida filtrada con 3 ramas (Canal Derecho)', 'FontSize', 12);
+xlabel('Tiempo (s)', 'FontSize', 10);
+ylabel('Amplitud', 'FontSize', 10);
+grid on;
+
+sound(y3_stereo, fs);
+
 
