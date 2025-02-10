@@ -7,9 +7,9 @@ function output = filter_2b(input)
         output(idx) = input(idx);
         if idx >= delay + 1
             output(idx) = output(idx) - factor * input(idx - delay);
-        end
+        endif
         if idx >= 3 * delay + 1
             output(idx) = output(idx) + factor^3 * input(idx - 3 * delay);
-        end
-    end
-end
+        endif
+    endfor
+endfunction

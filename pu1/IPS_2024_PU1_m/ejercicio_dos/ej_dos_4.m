@@ -1,49 +1,34 @@
-clear all;
-close all;
-clc;
-addpath('../funciones')
+% Define el rango de n
+n = 0:53000;
 
-% Definimos la respuesta impulsional del canal
-n0 = 0;    % Primer retardo (en n=0)
-alpha1 = -0.5;  % Coeficiente en n=8820
-n1 = 8820;  % Segundo retardo
-alpha2 = 0.25;  % Coeficiente en n=17640
-n2 = 17640;  % Tercer retardo
+% Delta de Dirac (delta(n) = 1 cuando n = 0, y 0 en cualquier otro lugar)
+x = (n == 0);
 
-% Canal con los tres impulsos definidos
-hc = [1 zeros(1, n1-1) alpha1 zeros(1, n2-n1-1) alpha2];
+% Aplicación de los sistemas
+% sys_canal, filter_2b y filtro_3b deben estar definidos previamente
+y = sys_canal(x);      % Salida del sistema canal
+y2b = filter_2b(y);    % Salida del filtro 2b
+y3b = filter_3b(y);    % Salida del filtro 3b
 
-% Filtro con 1 rama de retardo (para cancelar el retardo en n=0)
-hf_1 = [1 zeros(1, n1-1) -alpha1];
+% Filtrar muestras distintas de cero
+n_y2b = n(y2b ~= 0);
+y2b_interesante = y2b(y2b ~= 0);
 
-% Filtro con 2 ramas de retardo (para cancelar el retardo en n=0 y n=8820)
-hf_2 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
+n_y3b = n(y3b ~= 0);
+y3b_interesante = y3b(y3b ~= 0);
 
-% Filtro con 3 ramas de retardo
-hf_3 = [1 zeros(1, n1-1) -alpha1 zeros(1, n2-n1-1) alpha2];
-
-% Convolucion para obtener la respuesta impulsional de la cascada
-h_cascada_1 = conv(hc, hf_1); % Canal + filtro de 1 rama
-h_cascada_2 = conv(hc, hf_2); % Canal + filtro de 2 ramas
-h_cascada_3 = conv(hc, hf_3); % Canal + filtro de 3 ramas
-
-% Graficar las respuestas impulsionales
+% Graficar las respuestas impulsionales de y2b e y3b
 figure;
-subplot(3,1,1);
-stem(h_cascada_1);
-title('Respuesta impulsional: Canal + Filtro (1 rama)');
+subplot(2, 1, 1);
+stem(n_y2b, y2b_interesante, 'LineWidth', 1.5, 'Marker', 'o');
+title('Respuesta impulsional del filtro con 2 ramas (valores distintos de cero)');
 xlabel('n');
 ylabel('Amplitud');
+grid on;
 
-subplot(3,1,2);
-stem(h_cascada_2);
-title('Respuesta impulsional: Canal + Filtro (2 ramas)');
+subplot(2, 1, 2);
+stem(n_y3b, y3b_interesante, 'LineWidth', 1.5, 'Marker', 'o');
+title('Respuesta impulsional del filtro con 3 ramas (valores distintos de cero)');
 xlabel('n');
 ylabel('Amplitud');
-
-subplot(3,1,3);
-stem(h_cascada_3);
-title('Respuesta impulsional: Canal + Filtro (3 ramas)');
-xlabel('n');
-ylabel('Amplitud');
-
+grid on;
