@@ -16,4 +16,4 @@ y = x_n
 
 plt.stem(n, y, basefmt=" ")
 plt.grid(True)
-plt.show()
+plt.savefig("output/ej3-0.png")

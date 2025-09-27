@@ -14,4 +14,4 @@ t = np.linspace(-2, 2, 1000)
 y = h(t * t)
 plt.plot(t, y)
 plt.grid(True)
-plt.show()
+plt

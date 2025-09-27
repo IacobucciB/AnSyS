@@ -25,9 +25,10 @@ x_e = even_part(x, n)
 
 plt.stem(n, x_e, basefmt=" ")
 plt.grid(True)
-plt.show()
-
+plt.savefig("output/ej3-e-even.png")
+plt.close()
 
 plt.stem(n, x_o, basefmt=" ")
 plt.grid(True)
-plt.show()
+plt.savefig("output/ej3-e-odd.png")
+plt.close()
