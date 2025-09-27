@@ -15,8 +15,5 @@ x_n = x(n)
 y = x_n
 
 plt.stem(n, y, basefmt=" ")
-plt.title("Ejercicio 3")
-plt.xlabel("n")
-plt.ylabel("Amplitud")
 plt.grid(True)
 plt.show()

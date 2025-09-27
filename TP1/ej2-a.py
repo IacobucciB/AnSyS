@@ -13,8 +13,5 @@ def h(t):
 t = np.linspace(-3, 3, 1000)
 y = h(t + 1)
 plt.plot(t, y)
-plt.title("Ejercicio 2 - a)")
-plt.xlabel("Tiempo [s]")
-plt.ylabel("Amplitud")
 plt.grid(True)
 plt.show()

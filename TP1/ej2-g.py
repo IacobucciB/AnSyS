@@ -21,8 +21,5 @@ def even_part(h, t):
 t = np.linspace(-4, 4, 1000)
 y = even_part(h, t)
 plt.plot(t, y)
-plt.title("Ejercicio 2 - f)")
-plt.xlabel("Tiempo [s]")
-plt.ylabel("Amplitud")
 plt.grid(True)
 plt.show()
