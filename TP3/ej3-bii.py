@@ -11,7 +11,7 @@ def x(t):
 
 
 def h(t):
-    return rect(t + 1)
+    return rect(t - 1)
 
 
 t = np.linspace(-2.5, 2.5, 1000)
@@ -34,7 +34,7 @@ ax_x.set_ylabel("x(t)")
 ax_x.grid(True)
 
 ax_h.plot(t, h_t, color="C1")
-ax_h.set_title(r"$h(t) = \operatorname{rect}(t + 1)$")
+ax_h.set_title(r"$h(t) = \operatorname{rect}(t - 1)$")
 ax_h.set_xlabel("t")
 ax_h.set_ylabel("h(t)")
 ax_h.grid(True)
