@@ -42,9 +42,9 @@ axes[0].legend(["x(n)"])
 axes[0].grid(True)
 
 axes[1].stem(n, y_n, basefmt=" ")
-axes[1].set_title("h(n) (discrete impulse response)")
+axes[1].set_title("y(n)")
 axes[1].set_xlabel("n")
-axes[1].legend(["h(n)"])
+axes[1].legend(["y(n)"])
 axes[1].grid(True)
 
 plt.tight_layout()
