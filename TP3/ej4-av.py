@@ -51,4 +51,4 @@ ax_y.set_ylabel("y[n]")
 ax_y.grid(True)
 
 fig.tight_layout()
-plt.savefig("output/ej4-av.png")
+plt.show()

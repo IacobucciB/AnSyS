@@ -36,4 +36,4 @@ axs[1].set_title("Filtro de mediana")
 axs[1].grid(True)
 
 plt.tight_layout()
-plt.savefig("output/ej4-b.png")
+plt.show()

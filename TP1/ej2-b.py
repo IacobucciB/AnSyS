@@ -14,4 +14,5 @@ t = np.linspace(0, 4, 1000)
 y = h((2 * t) - 3)
 plt.plot(t, y)
 plt.grid(True)
-plt.savefig("output/ej2-b.png")
+plt.show()
+

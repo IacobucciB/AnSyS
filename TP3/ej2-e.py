@@ -48,4 +48,4 @@ axes[1].legend(["y(n)"])
 axes[1].grid(True)
 
 plt.tight_layout()
-plt.savefig("output/ej2-e.png")
+plt.show()
